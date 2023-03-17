@@ -1,2 +1,3 @@
 .terraform
 configfile.yml
+.terraform.lock.hcl
