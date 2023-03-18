@@ -1,0 +1,6 @@
+replicaCount: 2
+name: redis
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "alpine"

@@ -2,7 +2,7 @@ project_name: shadab
 cluster_config:
   cluster_name: eks_bimbisra_cluster
   k8s_version: 1.24
-  userarn: arn:aws:iam::account_id:user/shadab
+  userarn: arn:aws:iam::155965589397:user/syed.shadab
   scaling_config: 
     min_size       : 1
     max_size       : 3

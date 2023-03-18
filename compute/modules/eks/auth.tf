@@ -45,48 +45,50 @@ users:
 KUBECONFIG
 }
 
-resource "kubernetes_config_map" "aws_auth" {
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
+# resource "kubernetes_config_map" "aws_auth" {
+#   metadata {
+#     name      = "aws-auth"
+#     namespace = "kube-system"
+#   }
 
-  data = {
-    mapRoles = <<-EOF
-      - rolearn: ${aws_iam_role.node.arn}
-        username: system:node:{{EC2PrivateDNSName}}
-        groups:
-          - system:bootstrappers
-          - system:nodes
-      - rolearn: ${var.cluster_config.userarn}
-        username: cluster_admin_user:${local.username}
-        groups:
-          - system:masters
+#   data = {
+#     mapRoles = <<-EOF
+#       - rolearn: ${aws_iam_role.node.arn}
+#         username: system:node:{{EC2PrivateDNSName}}
+#         groups:
+#           - system:bootstrappers
+#           - system:nodes
+#       - rolearn: ${var.cluster_config.userarn}
+#         username: cluster_admin_user:${local.username}
+#         groups:
+#           - system:masters
+#     EOF
+#     mapUsers = <<-EOF
+#       - userarn: ${local.arn_part1}/syed.shadab
+#         username: cluster_admin_user:syed.shadab
+#         groups:
+#           - system:masters
+#     EOF
+#   }
+# }
 
-    EOF
-  }
+# resource "kubernetes_role_binding" "my_user_binding" {
+#   metadata {
+#     name = "my-user-binding"
+#   }
 
+#   role_ref {
+#     api_group = "rbac.authorization.k8s.io"
+#     kind      = "ClusterRole"
+#     name      = "cluster-admin"
+#   }
 
-#   api_version = "v1"
-#   kind        = "ConfigMap"
-}
-resource "kubernetes_role_binding" "my_user_binding" {
-  metadata {
-    name = "my-user-binding"
-  }
-
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "ClusterRole"
-    name      = "cluster-admin"
-  }
-
-  subject {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "User"
-    name      = local.username
-  }
-  depends_on = [
-    kubernetes_config_map.aws_auth
-  ]
-}
+#   subject {
+#     api_group = "rbac.authorization.k8s.io"
+#     kind      = "User"
+#     name      = local.username
+#   }
+#   depends_on = [
+#     kubernetes_config_map.aws_auth
+#   ]
+# }
